@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float _playerSpeed;
+    [SerializeField] private float _speed;
     private MotionCheck _motionCheck;
-    public Vector3 _direction;
-    public bool _isMoving = false;
+    private bool _isMoving;
+    private Vector3 _direction;
 
     void Start()
     {
@@ -16,13 +16,25 @@ public class PlayerMovement : MonoBehaviour
 
     public void MovePlayer()
     {
-        if(_motionCheck.CanMove(_direction) && _direction != Vector3.zero)
+        if (!_motionCheck.CanMove(_direction))
         {
-            transform.Translate(_direction * _playerSpeed * Time.deltaTime);
-            _isMoving = true;
-        }
-        if(!_motionCheck.CanMove(_direction))
             _isMoving = false;
+        }
+        else
+        {
+            _isMoving = true;
+            transform.Translate(_direction * Time.deltaTime * _speed);
+        }
+        
+    }
+
+    public void SetDirection(Vector3 direction)
+    {
+        if (_isMoving)
+        {
+            return;
+        }
+        _direction = direction;
     }
 }
 

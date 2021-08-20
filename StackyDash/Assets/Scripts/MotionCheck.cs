@@ -8,7 +8,11 @@ public class MotionCheck : MonoBehaviour
 
     public bool CanMove(Vector3 direction)
     {
-        if(Physics.Raycast(transform.position, direction, _rayLength))
+        if (direction.Equals(Vector3.zero))
+        {
+            return false;
+        }
+        if (Physics.Raycast(transform.position, direction, _rayLength))
         {
             return false;
         }

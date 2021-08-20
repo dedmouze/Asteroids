@@ -38,12 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 11
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,8 +118,6 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-    maxJobWorkers: 0
-    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -282,7 +280,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -307,7 +304,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &124974547
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -330,7 +326,7 @@ GameObject:
   - component: {fileID: 165295537}
   m_Layer: 0
   m_Name: Grass parts
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -377,7 +373,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -402,7 +397,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &165295539
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -472,7 +466,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -497,7 +490,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &176206534
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -520,7 +512,7 @@ GameObject:
   - component: {fileID: 355533440}
   m_Layer: 0
   m_Name: Grass parts (4)
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -567,7 +559,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -592,7 +583,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &355533442
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -615,7 +605,7 @@ GameObject:
   - component: {fileID: 359062068}
   m_Layer: 0
   m_Name: Grass parts (1)
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -662,7 +652,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -687,7 +676,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &359062070
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -817,7 +805,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -842,7 +829,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &654123414
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -926,7 +912,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -951,7 +936,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &669250598
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1021,7 +1005,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1046,7 +1029,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &671211732
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1116,7 +1098,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1141,7 +1122,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &740793733
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1211,7 +1191,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1236,7 +1215,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &804775008
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1310,7 +1288,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1383,7 +1360,7 @@ GameObject:
   - component: {fileID: 964635330}
   m_Layer: 0
   m_Name: Grass parts (3)
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1430,7 +1407,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1455,7 +1431,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &964635332
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1623,7 +1598,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1648,7 +1622,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1031510377
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1718,7 +1691,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1743,7 +1715,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1032356707
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1766,7 +1737,7 @@ GameObject:
   - component: {fileID: 1092514335}
   m_Layer: 0
   m_Name: Grass parts
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1813,7 +1784,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1838,7 +1808,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1092514337
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1908,7 +1877,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1933,7 +1901,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1319071517
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1956,7 +1923,7 @@ GameObject:
   - component: {fileID: 1494012256}
   m_Layer: 0
   m_Name: Grass parts (2)
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2003,7 +1970,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2028,7 +1994,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1494012258
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2098,7 +2063,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2123,7 +2087,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1518642392
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2139,75 +2102,93 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.64
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: -3.5
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_Name
       value: Stickman
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+    - target: {fileID: 6756571673371398259, guid: 37f623e146bd9814d936d93958cb3060,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}
@@ -2215,7 +2196,8 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
 --- !u!1 &1525452471 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 37f623e146bd9814d936d93958cb3060,
+    type: 3}
   m_PrefabInstance: {fileID: 1525452470}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1525452472
@@ -2242,12 +2224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399ca83f71c9e334180d8941f30cf665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 5
-  _direction: {x: 0, y: 0, z: 0}
-  _isMoving: 0
+  _speed: 3
 --- !u!4 &1525452475 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 37f623e146bd9814d936d93958cb3060,
+    type: 3}
   m_PrefabInstance: {fileID: 1525452470}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1550533222
@@ -2311,7 +2292,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2336,7 +2316,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1550533226
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2403,7 +2382,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
 --- !u!223 &1659492839
 Canvas:
   m_ObjectHideFlags: 0
@@ -2506,7 +2484,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2531,7 +2508,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1706769480
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2660,7 +2636,6 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &2039101613
@@ -2738,7 +2713,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2763,7 +2737,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2098363936
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2833,7 +2806,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2858,7 +2830,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2108205114
 MeshFilter:
   m_ObjectHideFlags: 0

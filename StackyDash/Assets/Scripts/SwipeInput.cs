@@ -35,10 +35,9 @@ public class SwipeInput : MonoBehaviour, IBeginDragHandler, IDragHandler
                 _direction = Vector3.back;
             }
         }
-        if(!_playerMovement._isMoving)
-        {
-            _playerMovement._direction = _direction;
-        }
+
+        _playerMovement.SetDirection(_direction);
+
     }
     public void OnDrag(PointerEventData eventData){}
     //End swipe
