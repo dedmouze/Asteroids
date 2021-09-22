@@ -7,8 +7,17 @@ public class GameLevel : PersistableObject
     [SerializeField] private PersistableObject[] _persistentObject;
     
     public static GameLevel CurrentLevel { get; private set; }
-    public Vector3 SpawnPoint => _spawnZone.SpawnPoint;
 
+    private void OnEnable()
+    {
+        CurrentLevel = this;
+        _persistentObject ??= Array.Empty<PersistableObject>();
+    }
+
+    public void ConfigureSpawn(Shape shape)
+    {
+        _spawnZone.ConfigureSpawn(shape);
+    }
     public override void Save(GameDataWriter writer)
     {
         int length = _persistentObject.Length;
@@ -27,12 +36,4 @@ public class GameLevel : PersistableObject
         }
     }
     
-    private void OnEnable()
-    {
-        CurrentLevel = this;
-        if (_persistentObject == null)
-        {
-            _persistentObject = Array.Empty<PersistableObject>();
-        }
-    }
 }

@@ -1,12 +1,13 @@
-using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
-using Random = UnityEngine.Random;
 
 public class Game : PersistableObject
 {
+    private const int _saveVersion = 4;
+    
     [SerializeField] private ShapeFactory _shapeFactory;
     [SerializeField] private PersistentStorage _storage;
     [SerializeField] private KeyCode _createKey = KeyCode.C;
@@ -14,17 +15,17 @@ public class Game : PersistableObject
     [SerializeField] private KeyCode _saveKey = KeyCode.S;
     [SerializeField] private KeyCode _loadKey = KeyCode.L;
     [SerializeField] private KeyCode _destroyKey = KeyCode.X;
+    [SerializeField] private Slider _creationSpeedSlider;
+    [SerializeField] private Slider _destructionSpeedSlider;
     [SerializeField] private int _levelCount;
     [SerializeField] private bool _reSeedOnLoad;
-
-    private const int _saveVersion = 3;
+    
     private int _loadedLevelBuildIndex;
     private float _destructionProgress;
     private float _creationProgress;
     private Random.State _mainRandomState;
     private List<Shape> _shapes;
     
-    public SpawnZone SpawnZoneOfLevel { get; set; }
     public float CreationSpeed { get; set; }
     public float DestructionSpeed { get; set; }
     
@@ -51,19 +52,6 @@ public class Game : PersistableObject
     }
     private void Update()
     {
-        _creationProgress += Time.deltaTime * CreationSpeed;
-        _destructionProgress += Time.deltaTime * DestructionSpeed;
-        while (_creationProgress >= 1f)
-        {
-            _creationProgress -= 1f;
-            CreateShape();
-        }
-        while (_destructionProgress >= 1f)
-        {
-            _destructionProgress -= 1f;
-            DestroyShape();
-        }
-        
         if (Input.GetKeyDown(_createKey))
         {
             CreateShape();
@@ -101,6 +89,25 @@ public class Game : PersistableObject
             DestroyShape();
         }
     }
+    private void FixedUpdate()
+    {
+        for (int i = 0, n = _shapes.Count; i < n; i++)
+        {
+            _shapes[i].GameUpdate();
+        }
+        _creationProgress += Time.deltaTime * CreationSpeed;
+        _destructionProgress += Time.deltaTime * DestructionSpeed;
+        while (_creationProgress >= 1f)
+        {
+            _creationProgress -= 1f;
+            CreateShape();
+        }
+        while (_destructionProgress >= 1f)
+        {
+            _destructionProgress -= 1f;
+            DestroyShape();
+        }
+    }
     private IEnumerator LoadLevel(int levelBuildIndex)
     {
         enabled = false;
@@ -113,7 +120,6 @@ public class Game : PersistableObject
         _loadedLevelBuildIndex = levelBuildIndex;
         enabled = true;
     }
-
     private IEnumerator LoadLevel(GameDataReader reader)
     {
         int version = reader.Version;
@@ -125,6 +131,10 @@ public class Game : PersistableObject
             {
                 Random.state = state;
             }
+            _creationSpeedSlider.value = CreationSpeed = reader.ReadFloat();
+            _creationProgress = reader.ReadFloat();
+            _destructionSpeedSlider.value = DestructionSpeed = reader.ReadFloat();
+            _destructionProgress = reader.ReadFloat();
         }
 
         yield return LoadLevel(version < 2 ? 1 : reader.ReadInt());
@@ -146,11 +156,7 @@ public class Game : PersistableObject
     private void CreateShape()
     {
         Shape instance = _shapeFactory.GetRandom();
-        Transform t = instance.transform;
-        t.localPosition = GameLevel.CurrentLevel.SpawnPoint;
-        t.localRotation = Random.rotation;
-        t.transform.localScale = Vector3.one * Random.Range(0.1f, 1f);
-        instance.SetColor(Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.25f, 1f, 1f, 1f));
+        GameLevel.CurrentLevel.ConfigureSpawn(instance);
         _shapes.Add(instance);
     }
     private void BeginNewGame()
@@ -158,14 +164,14 @@ public class Game : PersistableObject
         Random.state = _mainRandomState;
         int seed = Random.Range(0, int.MaxValue) ^ (int) Time.unscaledTime;
         Random.InitState(seed);
+        
+        _creationSpeedSlider.value = CreationSpeed = 0;
+        _destructionSpeedSlider.value = DestructionSpeed = 0;
+        
         for (int i = 0, n = _shapes.Count; i < n; i++)
         {
             _shapeFactory.Reclaim(_shapes[i]);
         }
-        /*foreach (var t in _objects)
-        {
-            Destroy(t.gameObject);
-        }*/
         _shapes.Clear();
     }
     private void DestroyShape()
@@ -184,6 +190,10 @@ public class Game : PersistableObject
     {
         writer.Write(_shapes.Count);
         writer.Write(Random.state);
+        writer.Write(CreationSpeed);
+        writer.Write(_creationProgress);
+        writer.Write(DestructionSpeed);
+        writer.Write(_destructionProgress);
         writer.Write(_loadedLevelBuildIndex);
         GameLevel.CurrentLevel.Save(writer);
         for (int i = 0, n = _shapes.Count; i < n; i++)

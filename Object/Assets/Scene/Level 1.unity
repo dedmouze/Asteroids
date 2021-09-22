@@ -214,7 +214,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1414478629
 GameObject:
@@ -246,6 +246,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnZone: {fileID: 1858913260}
+  _persistentObject:
+  - {fileID: 1858913260}
 --- !u!4 &1414478631
 Transform:
   m_ObjectHideFlags: 0
@@ -289,6 +291,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61405885026303c4b90ea3dd75bc9c1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnConfiguration:
+    Direction: 0
+    Speed:
+      Min: 0
+      Max: 0
+    AngularSpeed:
+      Min: 0
+      Max: 90
+    Scale:
+      Min: 0.1
+      Max: 1
+    Color:
+      Hue:
+        Min: 0
+        Max: 1
+      Saturation:
+        Min: 0.5
+        Max: 1
+      Value:
+        Min: 0.25
+        Max: 1
   _surfaceOnly: 1
 --- !u!4 &1858913261
 Transform:
@@ -302,5 +325,5 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

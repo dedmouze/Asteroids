@@ -1269,7 +1269,9 @@ MonoBehaviour:
   _saveKey: 115
   _loadKey: 108
   _destroyKey: 120
-  _levelCount: 3
+  _creationSpeedSlider: {fileID: 1188283785}
+  _destructionSpeedSlider: {fileID: 1046190769}
+  _levelCount: 4
   _reSeedOnLoad: 0
 --- !u!4 &1658658763
 Transform:
