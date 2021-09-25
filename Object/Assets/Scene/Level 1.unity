@@ -292,10 +292,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnConfiguration:
+    Factories:
+    - {fileID: 11400000, guid: 43a61cadb0180034c861414d8e010f98, type: 2}
     Direction: 0
     Speed:
       Min: 0
-      Max: 0
+      Max: 1
     AngularSpeed:
       Min: 0
       Max: 90
@@ -312,6 +314,14 @@ MonoBehaviour:
       Value:
         Min: 0.25
         Max: 1
+    UniformColor: 0
+    oscillationDirection: 0
+    oscillationAmplitude:
+      Min: 0
+      Max: 1
+    oscillationFrequency:
+      Min: 0
+      Max: 2
   _surfaceOnly: 1
 --- !u!4 &1858913261
 Transform:

@@ -14,9 +14,9 @@ public class GameLevel : PersistableObject
         _persistentObject ??= Array.Empty<PersistableObject>();
     }
 
-    public void ConfigureSpawn(Shape shape)
+    public Shape SpawnShape()
     {
-        _spawnZone.ConfigureSpawn(shape);
+        return _spawnZone.SpawnShape();
     }
     public override void Save(GameDataWriter writer)
     {
