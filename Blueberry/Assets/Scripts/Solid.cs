@@ -8,8 +8,9 @@ public class Solid : HitboxArea
     }
     private void DrawRect(Rect rect)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector3(rect.center.x, rect.center.y, 0f),
+        Gizmos.color = Color.yellow;
+        
+        Gizmos.DrawWireCube(new Vector3(rect.center.x, rect.center.y, 0f), 
             new Vector3(rect.size.x, rect.size.y, 0f));
     }
 }

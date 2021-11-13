@@ -2,75 +2,102 @@ using UnityEngine;
 
 public class Player : Actor
 {
-    private const float MAX_RUN_SPEED = 100f;
-    private const float MAX_FALL_SPEED = 160f;
-    private const float RUN_ACCEL = 800f;
-    private const float GRAVITY = 900f;
-    private const float JUMP_SPEED = -160f;
-    private const float JUMP_X_BOOST = 30f;
-    private const float HALF_GRAV_THRESHOLD = 40f;
-    private const float RUN_ACCEL_AIR_MULT = 0.8f;
-
-    [SerializeField] private Vector2 _speed;
+    private struct Timer
+    {
+        private float _value;
+        public float Value
+        {
+            get => _value;
+            set => _value = Mathf.Max(0, value);
+        }
+        public void Update()
+        {
+            Value -= Time.deltaTime;
+            if (Value <= 0)
+            {
+                Value = 0;
+            }
+        }
+        public bool IsOver()
+        {
+            return Value != 0;
+        }
+    }
+    
+    private Vector2 _speed;
+    private Timer _tJumpGrace;
+    private Timer _tVarJump;
 
     private bool _onGround => GroundCheck();
+    public Vector2 Speed => _speed;
 
+    protected override void CreateRect()
+    {
+        Rect newRect = new Rect(-8, 8, 14, 19);
+        Rect = newRect;
+    }
     private void Update()
     {
-        float accel = RUN_ACCEL;
-        float gravity = GRAVITY;
+        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        float gravity = _playerData.Gravity;
+        float accel = _playerData.RunAccel;
+        
         if (_onGround)
         {
-            gravity = 0;
+            _tJumpGrace.Value = _playerData.CoyoteTime;
+            gravity = 0f;
         }
         else
         {
-            accel *= RUN_ACCEL_AIR_MULT;
+            accel *= _playerData.RunAccelAirMult;
         }
         
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Space) && _onGround)
+        if (Input.GetKeyDown(KeyCode.Space) && _tJumpGrace.IsOver())
         {
-            _speed.y = JUMP_SPEED;
-            _speed.x += JUMP_X_BOOST * horizontalInput;
+            _speed.x += _playerData.JumpXBoost * input.x;
+            _speed.y = _playerData.JumpSpeed;
+            _tJumpGrace.Value = 0;
+            _tVarJump.Value = _playerData.VarTimeJump;
         }
         else
         {
             float multiplier;
-            if (Input.GetKey(KeyCode.Space) && Mathf.Abs(_speed.y) <= HALF_GRAV_THRESHOLD)
-            {
+            if (Input.GetKey(KeyCode.Space) && Mathf.Abs(_speed.y) <= _playerData.HalfGravThreshold)
                 multiplier = 0.5f;
-            }
             else
                 multiplier = 1f;
-            _speed.y = Approach(_speed.y, MAX_FALL_SPEED, gravity  * multiplier *  Time.deltaTime);
+            _speed.y = Approach(_speed.y, _playerData.MaxFallSpeed, gravity * multiplier * Time.deltaTime);
+
+            if (_tVarJump.IsOver())
+            {
+                if (Input.GetKey(KeyCode.Space))
+                    _speed.y = _playerData.JumpSpeed;
+                else
+                    _tVarJump.Value = 0;
+            }
         }
 
-       
+        _speed.x = Approach(_speed.x, input.x * _playerData.MaxRunSpeed, accel * Time.deltaTime);
         
-        _speed.x = Approach(_speed.x, horizontalInput * MAX_RUN_SPEED, accel * Time.deltaTime);
-
-        MoveY(-_speed.y * Time.deltaTime, OnCollideY);
-        MoveX(_speed.x * Time.deltaTime, OnCollideX);
+        MoveX(_speed.x, OnCollideX);
+        MoveY(_speed.y, OnCollideY);
+        
+        _tJumpGrace.Update();
+        _tVarJump.Update();
     }
     
     private float Approach(float value, float target, float maxDelta)
     {
-        
         return value > target ? Mathf.Max(value - maxDelta, target) 
-                              : Mathf.Min(value + maxDelta, target);
+                              : Mathf.Min(value + maxDelta, target);;
     }
-
     private void OnCollideX()
     {
-        Debug.Log("Collision on the X-axis happened!");
         _speed.x = 0;
-        ZeroRemainderX();
     }
     private void OnCollideY()
     {
-        Debug.Log("Collision on the Y-axis happened!");
         _speed.y = 0;
-        ZeroRemainderY();
     }
 }

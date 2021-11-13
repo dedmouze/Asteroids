@@ -1,11 +1,9 @@
-/*
-using System;
+/*using System;
 using UnityEngine;
 
 public class Physics : HitboxArea
 {
-    private Vector2 _remainder = Vector2.zero;
-    private float _ostatok;
+    private Vector3 _remainder = Vector3.zero;
 
     protected void MoveX(float amount, Action onCollision)
     {
@@ -17,6 +15,29 @@ public class Physics : HitboxArea
             MoveExactX(move, onCollision);
         }
     }
+    protected void MoveY(float amount, Action onCollision)
+    {
+        _remainder.y += amount;
+        int move = Mathf.RoundToInt(_remainder.y);
+        if (move != 0)
+        {
+            _remainder.y -= move;
+            MoveExactY(move, onCollision);
+        }
+    }
+    protected void ZeroRemainderX()
+    {
+        _remainder.x = 0;
+    }
+    protected void ZeroRemainderY()
+    {
+        _remainder.y = 0;
+    }
+    protected bool GroundCheck()
+    {
+        return Check<Solid>(new Vector2(0, -1 / PixelsPerUnit));
+    }
+
     private void MoveExactX(int amount, Action onCollision)
     {
         int move = amount;
@@ -30,26 +51,23 @@ public class Physics : HitboxArea
                 return;
             }
             Rect newRect = Rect;
-            newRect.center += new Vector2(pixelDisplacement, 0f);
+            
+            float displacement = newRect.center.x + pixelDisplacement;
+            displacement = PixelClamp(displacement, PixelsPerUnit);
+            
+            newRect.center = new Vector2(displacement, newRect.center.y);
             Rect = newRect;
-            if(Rect.center.x % pixelDisplacement != 0)
-                Debug.LogError("Module not zero!");
 
             transform.position = Rect.center;
+
+            float module = transform.position.x % pixelDisplacement;
             
-            if(transform.position.x % pixelDisplacement != 0)
-                Debug.LogError("Module not zero!");
+            if(module != 0)
+            {
+                Debug.LogError("Module not zero! Module: " + module + ", Position X: " + transform.position.x  
+                               + ", Pixel displacement: " + pixelDisplacement + ", Displacement: " + displacement);
+            }
             move -= sign;
-        }
-    }
-    protected void MoveY(float amount, Action onCollision)
-    {
-        _remainder.y += amount;
-        int move = Mathf.RoundToInt(_remainder.y);
-        if (move != 0)
-        {
-            _remainder.y -= move;
-            MoveExactY(move, onCollision);
         }
     }
     private void MoveExactY(int amount, Action onCollision)
@@ -66,41 +84,42 @@ public class Physics : HitboxArea
                 return;
             }
             Rect newRect = Rect;
-            newRect.center += new Vector2(0f, pixelDisplacement);
+            
+            float displacement = newRect.center.y + pixelDisplacement;
+            displacement = PixelClamp(displacement, PixelsPerUnit);
+
+            newRect.center = new Vector2(newRect.center.x, displacement);
             Rect = newRect;
-            if(Rect.center.x % pixelDisplacement != 0)
-                Debug.LogError("Module not zero!");
 
             transform.position = Rect.center;
             
-            if(transform.position.y % pixelDisplacement != 0)
-                Debug.LogError("Module not zero!");
+            float module = transform.position.y % pixelDisplacement;
+            
+            if(module != 0)
+            {
+                Debug.LogError("Module not zero! Module: " + module + ", Position Y: " + transform.position.y);
+            }
             move -= sign;
         }
-    }
-    protected void ZeroRemainderX()
-    {
-        _remainder.x = 0;
-    }
-    protected void ZeroRemainderY()
-    {
-        _remainder.y = 0;
     }
     private bool GroundRoofCheck(float displacement)
     {
         return Check<Solid>(new Vector2(0, displacement));
     }
-
-    protected bool GroundCheck()
-    {
-        return Check<Solid>(new Vector2(0, -1 / PixelsPerUnit));
-    }
     private bool WallCheck(float displacement)
     {
         return Check<Solid>(new Vector2(displacement, 0));
     }
-}
-*/
+    private float PixelClamp(float displacement, float pixelsPerUnit)
+    {
+        _remainder.z += displacement * pixelsPerUnit;
+        float displacementInPixels = Mathf.Round(_remainder.z);
+        _remainder.z -= displacementInPixels;
+        
+        return displacementInPixels / pixelsPerUnit;
+    }
+}*/
+
 /*private float PixelClamp(float displacement, float pixelsPerUnit)
 {
     /*int displacementInPixels = Mathf.RoundToInt(displacement * pixelsPerUnit);
@@ -176,4 +195,5 @@ public class Physics : HitboxArea
         ZeroRemainderY();
     }#1#
 }*/
+
 

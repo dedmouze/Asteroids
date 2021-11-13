@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7744f8d8b5d754f45a6423035c392fdf
+guid: e10f023026c5173458c4df0334a6e4c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8507743706348917392
-    second: johnny-rezende-sheet-dante_0
+      213: 3164468831473349620
+    second: ghost_idle_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -49,7 +49,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 1
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: johnny-rezende-sheet-dante_0
+      name: ghost_idle_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 512
-        width: 128
-        height: 128
+        x: 101
+        y: 0
+        width: 19
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,8 +120,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0921ef033d3911670800000000000000
-      internalID: 8507743706348917392
+      spriteID: 4f3b3cad2a37aeb20800000000000000
+      internalID: 3164468831473349620
       vertices: []
       indices: 
       edges: []

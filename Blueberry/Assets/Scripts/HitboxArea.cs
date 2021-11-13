@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class HitboxArea : RectHandler
 {
-    private bool _collided;
+    protected bool _collided;
+
     private bool Check(HitboxArea other, Vector2 offset)
     {
         Rect offsetRect = Rect;
-        offsetRect.x += offset.x;
-        offsetRect.y += offset.y;
+        offsetRect.center += offset;
         bool overlapped = offsetRect.Overlaps(other.Rect);
         _collided = overlapped;
         return overlapped;
@@ -23,18 +23,5 @@ public class HitboxArea : RectHandler
             }
         }
         return false;
-    }
-    private void OnDrawGizmos()
-    {
-        DrawRect(Rect);
-    }
-    private void DrawRect(Rect rect)
-    {
-        if(_collided)
-            Gizmos.color = Color.magenta;
-        else
-            Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3(rect.center.x, rect.center.y, 0f),
-            new Vector3(rect.size.x, rect.size.y, 0f));
     }
 }
