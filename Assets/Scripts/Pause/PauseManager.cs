@@ -7,8 +7,10 @@ public class PauseManager : MonoBehaviour
     private Ship _ship;
     
     public bool IsPaused { get; private set; } = true;
-    // Класс менеджера паузы будет иметь поле IsGameOver, так как конец игры останавливает
-    // всю игру, как и пауза, разница (пока что) только в том, что при конце игры кнопка Esc будет недоступна.
+    /// <summary>
+    /// Класс менеджера паузы имеет поле IsGameOver, так как конец игры останавливает всю игру,
+    /// как и пауза, разница (пока что) только в том, что при конце игры кнопка Esc будет недоступна.
+    /// </summary>
     public bool IsGameOver { get; private set; }
     public static PauseManager Instance
     {

@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(UfoFactory))]
-public sealed class UfoGenerator : Generator
+public sealed class UfoGenerator : EnemyGenerator
 {
     private UfoFactory _ufoFactory;
-
-    public event Action<int> DestroyedByPlayer;
     
     protected override void Init()
     {
@@ -19,12 +16,7 @@ public sealed class UfoGenerator : Generator
         Vector2 position = GetRandomPositionOutsideScreen();
         Vector2 direction = GetStraightDirection(position);
 
-        _ufoFactory.Create(position, direction, OnUfoBlown);
+        _ufoFactory.Create(position, direction);
         Timer.SetNewTime(SpawnCooldown.RandomValueInRange);
-    }
-
-    private void OnUfoBlown(int score)
-    {
-        if (score != 0) DestroyedByPlayer?.Invoke(score);
     }
 }

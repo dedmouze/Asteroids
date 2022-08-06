@@ -3,20 +3,26 @@ using System;
 public class Timer
 {
     private readonly Action _onEnd;
+    private readonly bool _autoStart;
     private float _accumulatedTime;
     private float _time;
-
+    private int _startFactor;
     public bool IsEnd;
     
-    public Timer(float time, Action onEnd = null)
+    public Timer(float time, Action onEnd = null, bool autoStart = true)
     {
         if (time < 0) throw new ArgumentOutOfRangeException();
 
         _onEnd = onEnd;
         _time = time;
-
+        _autoStart = autoStart;
+        
+        if(autoStart) Start();
+        
         if(onEnd == null) _accumulatedTime = time;
     }
+
+    public void Start() => _startFactor = 1;
 
     public void Tick(float deltaTime)
     {
@@ -30,10 +36,14 @@ public class Timer
             _onEnd.Invoke(); 
             ResetTimer();
         }
-        else _accumulatedTime += deltaTime;
+        else _accumulatedTime += deltaTime * _startFactor;
     }
 
-    public void ResetTimer() => _accumulatedTime -= _time;
+    public void ResetTimer()
+    {
+        _accumulatedTime -= _time;
+        if (!_autoStart) _startFactor = 0;
+    }
 
     public void SetNewTime(float time)
     {

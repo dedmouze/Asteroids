@@ -1,22 +1,17 @@
 using UnityEngine;
 
-public class BulletFactory : MonoBehaviour
+public sealed class BulletFactory : Factory<Bullet>
 {
-    [SerializeField] private int _baseSizeOfPool = 32;
-    [SerializeField] private Bullet _bulletPrefab;
-
-    private IObjectPool<Bullet> _bulletPool;
+    [SerializeField] private BulletConfigSO _bulletConfig;
     
-    private void Awake() => _bulletPool = new BulletPool(_baseSizeOfPool, _bulletPrefab);
+    protected override void Awake() => Pool = new BulletPool(BaseCapacity, Prefab);
 
     public Bullet Create(BulletType type, Vector2 position, Vector2 direction, Color color)
     {
-        Bullet bullet = _bulletPool.Request();
+        Bullet bullet = Pool.Request();
         
-        bullet.Init(type, position, direction, color, this);
+        bullet.Init(type, position, direction, _bulletConfig.Speed, color, this);
         
         return bullet;
     }
-    
-    public void Reclaim(Bullet bullet) => _bulletPool.Return(bullet);
 }

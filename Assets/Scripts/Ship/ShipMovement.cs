@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public sealed class ShipMovement : Actor
+public sealed class ShipMovement : MonoBehaviour
 {
     [SerializeField] private float _acceleration = 5f;
     [SerializeField] private float _maxVelocity = 10f;
@@ -9,18 +10,21 @@ public sealed class ShipMovement : Actor
     
     private PlayerInputHandler _playerInput;
     private UIMainMenu _controlSettings;
+    private Camera _mainCamera;
     
     private Vector2 _velocity;
     private float _rotationVelocity;
 
     private ControlType _currentControlType = ControlType.OnlyKeyboard;
     private Vector2 _mouseDirection;
+
+    public event Action ShipBlown;
     
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         _playerInput = GetComponentInParent<PlayerInputHandler>();
         _controlSettings = FindObjectOfType<UIMainMenu>();
+        _mainCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -65,7 +69,14 @@ public sealed class ShipMovement : Actor
     private void LateUpdate()
     {
         if (PauseManager.Instance.IsPaused) return;
-        ScreenWrap();
+        
+        Vector3 newPosition = transform.position;
+        Vector3 viewPosition = _mainCamera.WorldToViewportPoint(newPosition);
+        
+        if (viewPosition.x is > 1 or < 0) newPosition.x = -newPosition.x;
+        if (viewPosition.y is > 1 or < 0) newPosition.y = -newPosition.y;
+        
+        transform.position = newPosition;
     }
     
     private void OnAcceleratePressed()
@@ -104,7 +115,7 @@ public sealed class ShipMovement : Actor
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        gameObject.SetActive(false);
+        ShipBlown?.Invoke();
         _velocity = Vector2.zero;
         _rotationVelocity = 0f;
         transform.position = Vector3.zero;

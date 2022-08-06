@@ -22,7 +22,6 @@ public class ShipFireControl : MonoBehaviour
 
     private void OnEnable() => _playerInput.FirePressed += OnFirePressed;
     private void OnDisable() => _playerInput.FirePressed -= OnFirePressed;
-
     
     private void Update() => _timer.Tick(Time.deltaTime);
 

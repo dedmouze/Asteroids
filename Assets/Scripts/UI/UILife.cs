@@ -5,12 +5,12 @@ public class UILife : MonoBehaviour
 {
     [SerializeField] private Image[] _lifes;
 
-    private Ship _ship;
+    private ShipMovement _ship;
     
-    private void Awake() => _ship = FindObjectOfType<Ship>();
+    private void Awake() => _ship = FindObjectOfType<ShipMovement>();
 
-    private void OnEnable() => _ship.LifeDecreased += DecreaseLife;
-    private void OnDisable() => _ship.LifeDecreased -= DecreaseLife;
+    private void OnEnable() => _ship.ShipBlown += DecreaseLife;
+    private void OnDisable() => _ship.ShipBlown -= DecreaseLife;
     
     private void DecreaseLife()
     {

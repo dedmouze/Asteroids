@@ -10,56 +10,41 @@ public class Ship : MonoBehaviour // я бы переписал бы как ни
 
     private BoxCollider2D _shipCollider;
     private SpriteRenderer _shipRenderer;
-    private GameObject _ship;
+    private ShipMovement _ship;
     private Timer _respawnTimer;
     private Timer _immortalityTimer;
-    
     private float _time;
-    // Вместо добавления события ShipDestroyed в класс ShipMovement, на которое подпишется только этот класс Ship,
-    // я просто буду сохранять предыдущее состояние корабля, и если произошла смена с true на false, значит будем отнимать одну жизнь
-    private bool _previousShipActiveState = true;
 
-    public event Action LifeDecreased;
     public event Action GameOver;
 
     private void Awake()
     {
-        _respawnTimer = new Timer(_spawnCooldown, RespawnShip);
-        _immortalityTimer = new Timer(_immortalityTime, DisableImmortality);
+        _respawnTimer = new Timer(_spawnCooldown, RespawnShip, false);
+        _immortalityTimer = new Timer(_immortalityTime, DisableImmortality, false);
         
-        _ship = GetComponentInChildren<ShipMovement>().gameObject;
+        _ship = GetComponentInChildren<ShipMovement>();
         _shipCollider = _ship.GetComponent<BoxCollider2D>();
         _shipRenderer = _ship.GetComponent<SpriteRenderer>();
         
         ActivateImmortality();
     }
 
+    private void OnEnable() => _ship.ShipBlown += OnShipBlown;
+    private void OnDisable() => _ship.ShipBlown -= OnShipBlown;
+
     private void Update()
     {
         if (PauseManager.Instance.IsPaused) return;
-
-        if (_previousShipActiveState != _ship.activeSelf)
-        {
-            _lifeCount -= 1;
-            LifeDecreased?.Invoke();
-        }
-
-        if (_lifeCount == 0)
-        {
-            GameOver?.Invoke();
-            return;
-        }
-
-        if(!_ship.activeSelf) _respawnTimer.Tick(Time.deltaTime);
-
+        
         if (!_shipCollider.enabled)
         {
-            _immortalityTimer.Tick(Time.deltaTime);
+            _immortalityTimer.Start();
             _shipRenderer.color = new Color(1f, 1f, 1f, Mathf.Cos(2 * Mathf.PI * _time * _blinkFrequance));
             _time += Time.deltaTime;
         }
         
-        _previousShipActiveState = _ship.activeSelf;
+        _respawnTimer.Tick(Time.deltaTime);
+        _immortalityTimer.Tick(Time.deltaTime);
     }
     
     private void ActivateImmortality() => _shipCollider.enabled = false;
@@ -74,5 +59,15 @@ public class Ship : MonoBehaviour // я бы переписал бы как ни
     {
         _ship.gameObject.SetActive(true);
         ActivateImmortality();
+    }
+
+    private void OnShipBlown()
+    {
+        _ship.gameObject.SetActive(false);
+        
+        _lifeCount -= 1;
+        if (_lifeCount == 0) GameOver?.Invoke();
+        
+        _respawnTimer.Start();
     }
 }

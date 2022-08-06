@@ -1,31 +1,18 @@
-using System;
 using UnityEngine;
 
-public class UfoFactory : MonoBehaviour
+public sealed class UfoFactory : EnemyFactory<Ufo>
 {
-    [SerializeField] private int _baseCapacity = 8;
     [SerializeField] private UfoConfig _ufoConfig;
     
-    private IObjectPool<Ufo> _ufoPool;
-    private event Action<int> _onBlown;
-    
-    private void Awake() => _ufoPool = new UfoPool(_baseCapacity, _ufoConfig.UfoPrefab);
+    protected override void Awake() => Pool = new UfoPool(BaseCapacity, Prefab);
 
-    public Ufo Create(Vector2 position, Vector2 direction, Action<int> onBlown)
+    public Ufo Create(Vector2 position, Vector2 direction)
     {
-        Ufo ufo = _ufoPool.Request();
+        Ufo ufo = Pool.Request();
 
-        ufo.UfoBlown += onBlown;
-        _onBlown = onBlown;
-        
+        ufo.DestroyedByPlayer += OnDestroyedByPlayer;
         ufo.Init(position, direction, _ufoConfig, this);
 
         return ufo;
-    }
-
-    public void Reclaim(Ufo ufo)
-    {
-        ufo.UfoBlown -= _onBlown;
-        _ufoPool.Return(ufo);
     }
 }
