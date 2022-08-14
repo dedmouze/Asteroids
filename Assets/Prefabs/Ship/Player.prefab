@@ -109,7 +109,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2, y: 2}
-    newSize: {x: 2, y: 2}
+    newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -158,12 +158,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1865657273, guid: 5e77cd126196ddf4282d677ae80439ba, type: 3}
+  m_Sprite: {fileID: -829885065, guid: f2323272644007c4a874f7ffa488977f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -213,10 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5902cbf48bf8f00488f761791f617d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _acceleration: 7.5
-  _maxVelocity: 10
-  _turnVelocity: 180
-  _secondsToStop: 1.5
+  _shipConfig: {fileID: 11400000, guid: 787b405bdb350ab47b43a77e1813050d, type: 2}
 --- !u!114 &5381812231569955029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,9 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6dd0f680dd80144d82f20f4784df480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fireCooldown: 0.33333334
-  _bulletColor: {r: 0, g: 1, b: 0, a: 1}
-  _gunPoint: {fileID: 665789165594725623}
+  _shipConfig: {fileID: 11400000, guid: 787b405bdb350ab47b43a77e1813050d, type: 2}
 --- !u!1 &4089013981268214761
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +285,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb6f315681058044935a7ab0c63c1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnCooldown: 2
-  _immortalityTime: 3
-  _blinkFrequance: 2
-  _lifeCount: 3
+  _shipConfig: {fileID: 11400000, guid: 787b405bdb350ab47b43a77e1813050d, type: 2}

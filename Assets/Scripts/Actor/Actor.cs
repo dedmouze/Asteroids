@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class Actor<T> : MonoBehaviour
 {
-    private const float ScreenAdditionalSize = 0.25f;
+    private const float ScreenAdditionalSize = 0.2f;
     private Camera _mainCamera;
     
     protected IFactory<T> Factory;
@@ -15,7 +15,7 @@ public abstract class Actor<T> : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (PauseManager.Instance.IsPaused) return;
+        if (Game.Instance.PauseManager.IsPaused) return;
 
         transform.position += (Vector3) (Direction * Speed * Time.deltaTime);
         
@@ -26,11 +26,12 @@ public abstract class Actor<T> : MonoBehaviour
     {
         Vector3 newPosition = transform.position;
         Vector3 viewPosition = _mainCamera.WorldToViewportPoint(newPosition);
-
+        
         return viewPosition.x is > 1 + ScreenAdditionalSize or < 0 - ScreenAdditionalSize ||
                viewPosition.y is > 1 + ScreenAdditionalSize or < 0 - ScreenAdditionalSize;
     }
     
-    protected virtual void OnTriggerEnter2D(Collider2D other) => Reclaim(ActorObject);
     protected void Reclaim(T actorObject) => Factory.Reclaim(actorObject);
+    
+    protected abstract void OnTriggerEnter2D(Collider2D other);
 }

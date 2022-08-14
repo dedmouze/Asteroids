@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631e095f0f0738b4ba7c72a1ead9aa01, type: 3}
+  m_Name: Medium Asteroid
+  m_EditorClassIdentifier: 
+  EffectSound: {fileID: 8300000, guid: c6021f89d6af80743b72bba9899255bf, type: 3}
+  EffectAnimation: {fileID: 7400000, guid: 5911b499b19921c4b8e741cdd38d67bf, type: 2}
+  AudioMixerGroup: {fileID: 6122013479226857705, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  AnimatorController: {fileID: 9100000, guid: 51409868472c4b14cb6590eb626aa587, type: 2}
+  Score: 25
+  Speed:
+    Min: 3
+    Max: 5
+  _asteroid: {fileID: 8961912754273342367, guid: 139c0e0abcebb1444af5d21b0a485321, type: 3}
+  _asteroidCollider: {fileID: 8961912754273342364, guid: 139c0e0abcebb1444af5d21b0a485321, type: 3}
+  _asteroidRenderer: {fileID: 8961912754273342363, guid: 139c0e0abcebb1444af5d21b0a485321, type: 3}

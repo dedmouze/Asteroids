@@ -4,6 +4,8 @@ using UnityEngine;
 public class Enemy<T> : Actor<T>
 {
     protected int Score;
+    
+    public Action<T> Blown;
     public Action<int> DestroyedByPlayer;
 
     protected override void OnTriggerEnter2D(Collider2D other)
@@ -12,6 +14,8 @@ public class Enemy<T> : Actor<T>
         {
             if (bullet.BulletType == BulletType.Player) DestroyedByPlayer?.Invoke(Score);
         }
-        Factory.Reclaim(ActorObject);
+
+        Blown?.Invoke(ActorObject);
+        Reclaim(ActorObject);
     }
 }

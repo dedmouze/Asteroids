@@ -1,84 +1,52 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class UIMainMenu : MonoBehaviour
+public class UIMainMenu : UIMenu
 {
+    [SerializeField] private Button _continueGameButton;
     [SerializeField] private GameObject _pausePanel;
-    [SerializeField] private Image _continueButtonImage;
-    [SerializeField] private Image _controlButtonImage;
-    [SerializeField] private Sprite[] _controlTypeSprites;
 
-    private static UIMainMenu _instance;
-    private PlayerInputHandler _playerInput;
-    private bool _isGameStarted;
+    [SerializeField] private GameObject _scorePanel;
+    [SerializeField] private GameObject _lifePanel;
     
-    private readonly int _controlTypeLength = Enum.GetNames(typeof(ControlType)).Length;
-    private ControlType _controlType;
-
-    public event Action<ControlType> ControlTypeChanged;
-    public event Action PauseSwitched;
+    private PlayerInputHandler _input;
 
     private void Awake()
     {
-        if (_instance == null)
+        if (!Game.Instance.PauseManager.IsPaused)
         {
-            _instance = this;
-            
-            DontDestroyOnLoad(gameObject);
+            _pausePanel.SetActive(false);
+            _scorePanel.SetActive(true);
+            _lifePanel.SetActive(true);
+            Game.Instance.IsStarted = true;
+            _continueGameButton.GetComponent<Image>().color = Color.white;
         }
-        
-        _playerInput = FindObjectOfType<PlayerInputHandler>();
-        
-        if (_instance._isGameStarted)
-        {
-            _continueButtonImage.color = Color.white;
-            if (_instance._controlType != _controlType)
-            {
-                _controlType = _instance._controlType;
-                _controlButtonImage.sprite = _controlTypeSprites[(int)_controlType];
-                ControlTypeChanged?.Invoke(_controlType);
-            }
-            
-            SwitchPanel(false);
-        }
+
+        _input = FindObjectOfType<PlayerInputHandler>();
     }
 
-    private void OnEnable() => _playerInput.PausePressed += SwitchPauseState;
-    private void OnDisable() => _playerInput.PausePressed -= SwitchPauseState;
-
-    public void ContinueGame() => SwitchPanel(false);
-    
-    // Перезапуск надо бы переделать, сбрасывая все значения в игре на стандартные, вместо LoadScene()
-    // Тогда и необходимость в DontDestroyOnLoad и static пропадет
-    public void StartNewGame() 
+    protected override void OnEnable()
     {
-        _instance._isGameStarted = true;
-        _instance._controlType = _controlType;
-        _instance.gameObject.SetActive(false);
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        base.OnEnable();
+        _input.PausePressed += OnPausePressed;
+        _continueGameButton.onClick.AddListener(ContinueGame);
     }
-    
-    public void ChangeControlType()
+    protected override void OnDisable()
     {
-        _controlType += 1;
-        if ((int) _controlType == _controlTypeLength) _controlType = 0;
-        
-        _controlButtonImage.sprite = _controlTypeSprites[(int)_controlType];
-        
-        ControlTypeChanged?.Invoke(_controlType);
+        base.OnEnable();
+        _input.PausePressed -= OnPausePressed;
+        _continueGameButton.onClick.RemoveListener(ContinueGame);
     }
 
-    public void ExitGame() => Application.Quit();
+    private void OnPausePressed() => SwitchPanel(!_pausePanel.activeSelf);
     
-    private void SwitchPauseState() => SwitchPanel(!_pausePanel.activeSelf);
+    private void ContinueGame() => SwitchPanel(false);
 
     private void SwitchPanel(bool state)
     {
-        if (!_instance._isGameStarted) return;
+        if (!Game.Instance.IsStarted) return;
+        
         _pausePanel.SetActive(state);
-        PauseSwitched?.Invoke();
+        Game.Instance.PauseManager.SetPause(state);
     }
 }

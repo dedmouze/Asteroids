@@ -7,18 +7,16 @@ public sealed class AsteroidFactory : EnemyFactory<Asteroid>
 
     protected override void Awake() => Pool = new AsteroidPool(BaseCapacity, Prefab);
 
-    public Asteroid Create(AsteroidType type, Vector2 position, Vector2 direction, Quaternion rotation)
+    public void Create(AsteroidType type, Vector2 position, Vector2 direction, Quaternion rotation)
     {
         AsteroidConfigSO config = GetAsteroidConfig(type);
         
         Asteroid asteroid = Pool.Request();
 
-        asteroid.DestroyedByPlayer += OnDestroyedByPlayer;
+        Subscribe(asteroid);
         asteroid.name = type.ToString();
         
         asteroid.Init(type, position, rotation, direction, config, this);
-
-        return asteroid;
     }
 
     private AsteroidConfigSO GetAsteroidConfig(AsteroidType type)

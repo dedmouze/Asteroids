@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3535f892f973c804db9f0e1a440ac5a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d47a86a22b6b5e943ab5e6a9336e7659, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -146,4 +146,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 080ac5718f11e3040b26fdeba8678359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _asteroidSpeed: 3

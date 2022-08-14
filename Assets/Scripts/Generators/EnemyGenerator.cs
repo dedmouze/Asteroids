@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.U2D;
 using Random = UnityEngine.Random;
 
 public abstract class EnemyGenerator : MonoBehaviour
@@ -16,7 +17,7 @@ public abstract class EnemyGenerator : MonoBehaviour
     private void Awake()
     {
         _mainCamera = Camera.main;
-        _halfScreenSize = new Vector2(Screen.width / (32f * 2f), Screen.height / (32f * 2f));
+        _halfScreenSize = new Vector2(20f, 11.25f); // Игра будет работать только от 1920x1080
         Vector2 extents = _collider.size / 2;
         _spawnPositionBounds = new Vector2(_halfScreenSize.x + extents.x, _halfScreenSize.y + extents.y);
         

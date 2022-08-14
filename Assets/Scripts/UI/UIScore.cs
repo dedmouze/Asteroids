@@ -22,7 +22,6 @@ public class UIScore : MonoBehaviour
         _asteroidFactory.DestroyedByPlayer += IncreaseScore;
         _ufoFactory.DestroyedByPlayer += IncreaseScore;
     }
-
     private void OnDisable()
     {
         _asteroidFactory.DestroyedByPlayer -= IncreaseScore;

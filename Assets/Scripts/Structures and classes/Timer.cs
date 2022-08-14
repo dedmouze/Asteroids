@@ -26,7 +26,7 @@ public class Timer
 
     public void Tick(float deltaTime)
     {
-        if (PauseManager.Instance.IsPaused) return;
+        if (Game.Instance.PauseManager.IsPaused) return;
         
         IsEnd = _accumulatedTime >= _time;
         

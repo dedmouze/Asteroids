@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af2f2c6793b2fb42a4b545129f3dda3, type: 3}
+  m_Name: Ufo
+  m_EditorClassIdentifier: 
+  EffectSound: {fileID: 8300000, guid: 05863a46e148e1f43a2e938f92409b2c, type: 3}
+  EffectAnimation: {fileID: 7400000, guid: a392493c15adf7041a34fa81f89d81e2, type: 2}
+  AudioMixerGroup: {fileID: -1138389248790210938, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  AnimatorController: {fileID: 9100000, guid: 51409868472c4b14cb6590eb626aa587, type: 2}
+  Score: 150
+  Speed:
+    Min: 3
+    Max: 5
+  SinusoidFrequance: 3
+  FireCooldown: 1

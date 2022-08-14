@@ -1,29 +1,26 @@
 using System;
 using UnityEngine;
 
-public sealed class ShipMovement : MonoBehaviour
+public class ShipMovement : MonoBehaviour
 {
-    [SerializeField] private float _acceleration = 5f;
-    [SerializeField] private float _maxVelocity = 10f;
-    [SerializeField] private float _turnVelocity = 180f;
-    [SerializeField] private float _secondsToStop = 1f;
+    [SerializeField] private ShipConfigSO _shipConfig;
     
     private PlayerInputHandler _playerInput;
-    private UIMainMenu _controlSettings;
     private Camera _mainCamera;
+
+    private ControlType _currentControlType => Game.Instance.ControlType;
+    private bool _pauseState => Game.Instance.PauseManager.IsPaused;
     
     private Vector2 _velocity;
     private float _rotationVelocity;
 
-    private ControlType _currentControlType = ControlType.OnlyKeyboard;
     private Vector2 _mouseDirection;
 
     public event Action ShipBlown;
-    
+
     private void Awake()
     {
         _playerInput = GetComponentInParent<PlayerInputHandler>();
-        _controlSettings = FindObjectOfType<UIMainMenu>();
         _mainCamera = Camera.main;
     }
 
@@ -32,21 +29,17 @@ public sealed class ShipMovement : MonoBehaviour
         _playerInput.AcceleratePressed += OnAcceleratePressed;
         _playerInput.SlowdownPressed += OnSlowdownPressed;
         _playerInput.RotationProduced += OnRotationProduced;
-        _controlSettings.ControlTypeChanged += OnControlChanged;
     }
     private void OnDisable()
     {
         _playerInput.AcceleratePressed -= OnAcceleratePressed;
         _playerInput.SlowdownPressed -= OnSlowdownPressed;
         _playerInput.RotationProduced -= OnRotationProduced;
-        _controlSettings.ControlTypeChanged -= OnControlChanged;
     }
-    
-    private void OnControlChanged(ControlType type) => _currentControlType = type;
     
     private void Update()
     {
-        if (PauseManager.Instance.IsPaused) return;
+        if (_pauseState) return;
         
         switch (_currentControlType)
         {
@@ -68,7 +61,7 @@ public sealed class ShipMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (PauseManager.Instance.IsPaused) return;
+        if (_pauseState) return;
         
         Vector3 newPosition = transform.position;
         Vector3 viewPosition = _mainCamera.WorldToViewportPoint(newPosition);
@@ -83,14 +76,14 @@ public sealed class ShipMovement : MonoBehaviour
     {
         Vector2 forwardDirection = transform.rotation * Vector3.up;
         
-        _velocity += forwardDirection * _acceleration * Time.deltaTime;
-        _velocity = Vector2.ClampMagnitude(_velocity, _maxVelocity);
+        _velocity += forwardDirection * _shipConfig.Acceleration * Time.deltaTime;
+        _velocity = Vector2.ClampMagnitude(_velocity, _shipConfig.MaxVelocity);
     }
     
     private void OnSlowdownPressed()
     {
-        float deceleration = -_acceleration * Time.deltaTime;
-        _velocity += 2 * _velocity.normalized * deceleration / _secondsToStop;
+        float deceleration = -_shipConfig.Acceleration * Time.deltaTime;
+        _velocity += 2 * _velocity.normalized * deceleration / _shipConfig.SecondsToStop;
 
         if(_velocity.sqrMagnitude < 0.001f) _velocity = Vector2.zero;
     }
@@ -101,13 +94,13 @@ public sealed class ShipMovement : MonoBehaviour
         {
             case ControlType.OnlyKeyboard:
             {
-                _rotationVelocity = -direction.x * _turnVelocity * Time.deltaTime;
+                _rotationVelocity = -direction.x * _shipConfig.TurnVelocity * Time.deltaTime;
                 break;
             }
             case ControlType.KeyboardWithMouse:
             {
                 _mouseDirection = (direction - (Vector2)transform.position).normalized;
-                _rotationVelocity = _turnVelocity * Time.deltaTime;
+                _rotationVelocity = _shipConfig.TurnVelocity * Time.deltaTime;
                 break;
             }
         }
@@ -118,7 +111,5 @@ public sealed class ShipMovement : MonoBehaviour
         ShipBlown?.Invoke();
         _velocity = Vector2.zero;
         _rotationVelocity = 0f;
-        transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
     }
 }

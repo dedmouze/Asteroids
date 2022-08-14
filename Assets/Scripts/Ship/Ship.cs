@@ -1,12 +1,9 @@
 using System;
 using UnityEngine;
 
-public class Ship : MonoBehaviour // я бы переписал бы как нибудь этот класс
+public class Ship : MonoBehaviour
 {
-    [SerializeField] private float _spawnCooldown = 5f;
-    [SerializeField] private float _immortalityTime = 3f;
-    [SerializeField] private float _blinkFrequance = 2f;
-    [SerializeField] private int _lifeCount = 3;
+    [SerializeField] private ShipConfigSO _shipConfig;
 
     private BoxCollider2D _shipCollider;
     private SpriteRenderer _shipRenderer;
@@ -15,16 +12,19 @@ public class Ship : MonoBehaviour // я бы переписал бы как ни
     private Timer _immortalityTimer;
     private float _time;
 
-    public event Action GameOver;
-
+    private int _lifeCount;
+    
+    public event Action<Vector3> ShipBlown;
+    
     private void Awake()
     {
-        _respawnTimer = new Timer(_spawnCooldown, RespawnShip, false);
-        _immortalityTimer = new Timer(_immortalityTime, DisableImmortality, false);
+        _respawnTimer = new Timer(_shipConfig.SpawnCooldown, RespawnShip, false);
+        _immortalityTimer = new Timer(_shipConfig.ImmortalityTime, DisableImmortality, false);
         
         _ship = GetComponentInChildren<ShipMovement>();
         _shipCollider = _ship.GetComponent<BoxCollider2D>();
         _shipRenderer = _ship.GetComponent<SpriteRenderer>();
+        _lifeCount = _shipConfig.LifeCount;
         
         ActivateImmortality();
     }
@@ -34,12 +34,12 @@ public class Ship : MonoBehaviour // я бы переписал бы как ни
 
     private void Update()
     {
-        if (PauseManager.Instance.IsPaused) return;
+        if (Game.Instance.PauseManager.IsPaused) return;
         
         if (!_shipCollider.enabled)
         {
             _immortalityTimer.Start();
-            _shipRenderer.color = new Color(1f, 1f, 1f, Mathf.Cos(2 * Mathf.PI * _time * _blinkFrequance));
+            _shipRenderer.color = new Color(1f, 1f, 1f, Mathf.Cos(2 * Mathf.PI * _time * _shipConfig.BlinkFrequance));
             _time += Time.deltaTime;
         }
         
@@ -65,8 +65,13 @@ public class Ship : MonoBehaviour // я бы переписал бы как ни
     {
         _ship.gameObject.SetActive(false);
         
+        ShipBlown?.Invoke(_ship.transform.position);
+        
+        _ship.transform.position = Vector3.zero;
+        _ship.transform.rotation = Quaternion.identity;
+        
         _lifeCount -= 1;
-        if (_lifeCount == 0) GameOver?.Invoke();
+        if (_lifeCount == 0) Game.Instance.PauseManager.GameOver();
         
         _respawnTimer.Start();
     }

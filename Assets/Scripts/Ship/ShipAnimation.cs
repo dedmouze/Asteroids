@@ -14,6 +14,16 @@ public class ShipAnimation : MonoBehaviour
         _shipAnimator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (Game.Instance.PauseManager.IsPaused)
+        {
+            _shipAnimator.enabled = false;
+            return;
+        }
+        _shipAnimator.enabled = true;
+    }
+
     private void OnEnable() => _playerInput.AcceleratePressed += OnAcceleratePressed;
     private void OnDisable() => _playerInput.AcceleratePressed -= OnAcceleratePressed;
     
