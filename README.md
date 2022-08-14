@@ -10,4 +10,6 @@ ________________________________________________________________________________
     <img width = "600" height = "338" src = "https://github.com/dedmouze/Asteroids/blob/main/Recordings/Asteroids%20Gameplay%20-%20GIF.gif", alt = "Asteroids Gameplay">
 </p>
 
+_______________________________________________________________________________________________________________
+
 Игру можно поиграть здесь: <https://dedmouze.itch.io/asteroids>
