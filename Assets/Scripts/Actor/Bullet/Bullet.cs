@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public sealed class Bullet : Actor<Bullet>
 {
     private SpriteRenderer _bulletRenderer;
-
-    public event Action<Vector2, BulletType> BulletShot;
-    public event Action<Vector2, BulletType> BulletBlown;
 
     public BulletType BulletType { get; private set; }
 
@@ -27,13 +24,13 @@ public sealed class Bullet : Actor<Bullet>
 
         Quaternion rotation = Quaternion.AngleAxis(-Vector2.SignedAngle(direction, Vector2.up), Vector3.forward);
         transform.SetPositionAndRotation(position, rotation);
-        
-        BulletShot?.Invoke(position, type);
+
+        EventBus.RaiseEvent<IBulletActionSubscriber>(s => s.OnBulletAction(position, BulletType));
     }
 
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        BulletBlown?.Invoke(transform.position, BulletType);
+        EventBus.RaiseEvent<IBulletActionSubscriber>(s => s.OnBulletAction(transform.position, BulletType));
         Reclaim(ActorObject);
     }
 }

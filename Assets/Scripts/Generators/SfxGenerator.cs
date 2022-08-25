@@ -1,43 +1,19 @@
 using System;
 using UnityEngine;
 
-public class SfxGenerator : MonoBehaviour
+[RequireComponent(typeof(SfxFactory))]
+public class SfxGenerator : MonoBehaviour, IEnemyDeathSubscriber<Asteroid>, IEnemyDeathSubscriber<Ufo>, IPlayerDeathSubscriber, IBulletActionSubscriber
 {
     private SfxFactory _sfxFactory;
-    private EnemyFactory<Asteroid> _asteroidFactory;
-    private BulletFactory _bulletFactory;
-    private UfoFactory _ufoFactory;
-    private Ship _ship;
 
     private void Awake()
     {
+        EventBus.Subscribe(this);
         _sfxFactory = GetComponent<SfxFactory>();
-        _asteroidFactory = GetComponent<AsteroidFactory>();
-        _bulletFactory = GetComponent<BulletFactory>();
-        _ufoFactory = GetComponent<UfoFactory>();
-        _ship = FindObjectOfType<Ship>();
     }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
-    private void OnEnable()
-    {
-        _ship.ShipBlown += OnShipBlown;
-        _asteroidFactory.EnemyBlown += OnAsteroidBlown;
-        _ufoFactory.EnemyBlown += OnUfoBlown;
-        _bulletFactory.BulletShot += OnBulletShotBlown;
-        _bulletFactory.BulletBlown += OnBulletShotBlown;
-    }
-    private void OnDisable()
-    {
-        _ship.ShipBlown -= OnShipBlown;
-        _asteroidFactory.EnemyBlown -= OnAsteroidBlown;
-        _ufoFactory.EnemyBlown -= OnUfoBlown;
-        _bulletFactory.BulletShot -= OnBulletShotBlown;
-        _bulletFactory.BulletBlown -= OnBulletShotBlown;
-    }
-
-    private void OnShipBlown(Vector3 position) => _sfxFactory.Create(SfxType.ShipExplosion, position);
-    private void OnUfoBlown(Ufo ufo) => _sfxFactory.Create(SfxType.UfoExplosion, ufo.transform.position);
-    private void OnAsteroidBlown(Asteroid asteroid)
+    void IEnemyDeathSubscriber<Asteroid>.OnEnemyDeath(Asteroid asteroid)
     {
         switch (asteroid.AsteroidType)
         {
@@ -50,7 +26,9 @@ public class SfxGenerator : MonoBehaviour
             default: throw new ArgumentOutOfRangeException();
         }
     }
-    private void OnBulletShotBlown(Vector2 position, BulletType type)
+    void IEnemyDeathSubscriber<Ufo>.OnEnemyDeath(Ufo ufo) => _sfxFactory.Create(SfxType.UfoExplosion, ufo.transform.position);
+    void IPlayerDeathSubscriber.OnPlayerDeath(Vector2 position) => _sfxFactory.Create(SfxType.ShipExplosion, position);
+    void IBulletActionSubscriber.OnBulletAction(Vector2 position, BulletType type)
     {
         switch (type)
         {

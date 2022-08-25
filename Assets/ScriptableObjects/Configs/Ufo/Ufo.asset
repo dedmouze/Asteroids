@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af2f2c6793b2fb42a4b545129f3dda3, type: 3}
   m_Name: Ufo
   m_EditorClassIdentifier: 
-  EffectSound: {fileID: 8300000, guid: 05863a46e148e1f43a2e938f92409b2c, type: 3}
-  EffectAnimation: {fileID: 7400000, guid: a392493c15adf7041a34fa81f89d81e2, type: 2}
-  AudioMixerGroup: {fileID: -1138389248790210938, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
-  AnimatorController: {fileID: 9100000, guid: 51409868472c4b14cb6590eb626aa587, type: 2}
-  Score: 150
-  Speed:
+  _effectSound: {fileID: 8300000, guid: 3dd54ae68530ed847aa8d6266caca324, type: 3}
+  _effectAnimation: {fileID: 7400000, guid: a392493c15adf7041a34fa81f89d81e2, type: 2}
+  _audioMixerGroup: {fileID: -1138389248790210938, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  _score: 75
+  _speed:
     Min: 3
-    Max: 5
-  SinusoidFrequance: 3
-  FireCooldown: 1
+    Max: 6
+  _sinusoidFrequency:
+    Min: 2.5
+    Max: 3.5
+  _fireCooldown: 1

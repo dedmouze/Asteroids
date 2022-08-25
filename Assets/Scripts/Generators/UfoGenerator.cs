@@ -1,15 +1,17 @@
 using UnityEngine;
 
 [RequireComponent(typeof(UfoFactory))]
-public sealed class UfoGenerator : EnemyGenerator
+public sealed class UfoGenerator : EnemyGenerator, IGameRestartSubscriber
 {
     private UfoFactory _ufoFactory;
     
     protected override void Init()
     {
         _ufoFactory = GetComponent<UfoFactory>();
-        Timer = new Timer(SpawnCooldown.RandomValueInRange, SpawnUfo);
+        GenerationTimer = new Timer(SpawnCooldown.RandomValueInRange, SpawnUfo, true);
+        EventBus.Subscribe(this);
     }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
     private void SpawnUfo()
     {
@@ -17,6 +19,9 @@ public sealed class UfoGenerator : EnemyGenerator
         Vector2 direction = GetStraightDirection(position);
 
         _ufoFactory.Create(position, direction);
-        Timer.SetNewTime(SpawnCooldown.RandomValueInRange);
+        GenerationTimer.SetNewTime(SpawnCooldown.RandomValueInRange);
+        SpawnCooldown.Max *= DifficultFactor;
     }
+
+    void IGameRestartSubscriber.OnGameRestart() => SpawnCooldown.Max = StartMaxSpawnCooldown;
 }

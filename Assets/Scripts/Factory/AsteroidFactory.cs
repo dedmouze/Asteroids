@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public sealed class AsteroidFactory : EnemyFactory<Asteroid>
+public sealed class AsteroidFactory : Factory<Asteroid>
 {
     [SerializeField] private AsteroidConfigSO _bigAsteroidConfig, _mediumAsteroidConfig, _smallAsteroidConfig;
 
@@ -13,20 +13,17 @@ public sealed class AsteroidFactory : EnemyFactory<Asteroid>
         
         Asteroid asteroid = Pool.Request();
 
-        Subscribe(asteroid);
-        asteroid.name = type.ToString();
-        
         asteroid.Init(type, position, rotation, direction, config, this);
     }
 
     private AsteroidConfigSO GetAsteroidConfig(AsteroidType type)
     {
-        switch (type)
+        return type switch
         {
-            case AsteroidType.Big: return _bigAsteroidConfig;
-            case AsteroidType.Medium: return _mediumAsteroidConfig;
-            case AsteroidType.Small: return _smallAsteroidConfig;
-            default: throw new ArgumentOutOfRangeException();
-        }
+            AsteroidType.Big => _bigAsteroidConfig,
+            AsteroidType.Medium => _mediumAsteroidConfig,
+            AsteroidType.Small => _smallAsteroidConfig,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

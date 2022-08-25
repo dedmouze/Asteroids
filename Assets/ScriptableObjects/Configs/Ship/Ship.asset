@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb46532ea05a3bc4a9ed8631157cf546, type: 3}
   m_Name: Ship
   m_EditorClassIdentifier: 
-  EffectSound: {fileID: 8300000, guid: 3dd54ae68530ed847aa8d6266caca324, type: 3}
-  EffectAnimation: {fileID: 7400000, guid: e29ff26edd024f84789948b486a2717d, type: 2}
-  AudioMixerGroup: {fileID: 406866386399877470, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
-  AnimatorController: {fileID: 9100000, guid: 51409868472c4b14cb6590eb626aa587, type: 2}
-  SpawnCooldown: 5
-  ImmortalityTime: 3
-  BlinkFrequance: 2
-  LifeCount: 3
-  Acceleration: 5
-  MaxVelocity: 10
-  TurnVelocity: 180
-  SecondsToStop: 1
-  FireCooldown: 0.33333334
+  _effectSound: {fileID: 8300000, guid: 3dd54ae68530ed847aa8d6266caca324, type: 3}
+  _effectAnimation: {fileID: 7400000, guid: e29ff26edd024f84789948b486a2717d, type: 2}
+  _audioMixerGroup: {fileID: 406866386399877470, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  _spawnCooldown: 3
+  _immortalityTime: 2
+  _blinkFrequency: 2
+  _lifeCount: 3
+  _acceleration: 5
+  _maxVelocity: 10
+  _turnVelocity: 180
+  _secondsToStop: 1
+  _fireCooldown: 0.33333334

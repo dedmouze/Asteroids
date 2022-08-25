@@ -1,19 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator), typeof(AudioSource))]
 public class Sfx : MonoBehaviour
 {
     private Animator _animator;
     private AudioSource _audioSource;
     private SfxFactory _sfxFactory;
 
-    private Timer _timer;
+    private Timer _lifeTimer;
     private float _maxTimeLength;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
-        _timer = new Timer(1000f, Reclaim);
+        _lifeTimer = new Timer(float.MaxValue, () => _sfxFactory.Reclaim(this));
     }
 
     public void Init(ConfigSO config, Vector2 position, SfxFactory factory)
@@ -26,10 +27,8 @@ public class Sfx : MonoBehaviour
         _animator.SetTrigger(config.EffectAnimation.name);
         
         _maxTimeLength = config.EffectSound.length > config.EffectAnimation.length ? config.EffectSound.length : config.EffectAnimation.length;
-        _timer.SetNewTime(_maxTimeLength);
+        _lifeTimer.SetNewTime(_maxTimeLength);
+        Timers.Stop(_lifeTimer);
+        Timers.Start(_lifeTimer);
     }
-
-    private void Update() => _timer.Tick(Time.deltaTime);
-    
-    private void Reclaim() => _sfxFactory.Reclaim(this);
 }

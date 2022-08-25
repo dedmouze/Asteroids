@@ -1,18 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UILife : MonoBehaviour
+public class UILife : MonoBehaviour, IPlayerDeathParameterlessSubscriber, IGameRestartSubscriber
 {
     [SerializeField] private Image[] _lifes;
 
-    private ShipMovement _ship;
+    private void Awake() => EventBus.Subscribe(this);
+    private void OnDestroy() => EventBus.Unsubscribe(this);
     
-    private void Awake() => _ship = FindObjectOfType<ShipMovement>();
-
-    private void OnEnable() => _ship.ShipBlown += DecreaseLife;
-    private void OnDisable() => _ship.ShipBlown -= DecreaseLife;
-    
-    private void DecreaseLife()
+    void IPlayerDeathParameterlessSubscriber.OnPlayerDeath()
     {
         for (int i = _lifes.Length - 1; i >= 0; i--)
         {
@@ -21,6 +17,14 @@ public class UILife : MonoBehaviour
                 _lifes[i].gameObject.SetActive(false);
                 return;
             }
+        }
+    }
+
+    void IGameRestartSubscriber.OnGameRestart()
+    {
+        foreach (var life in _lifes)
+        {
+            if(!life.gameObject.activeInHierarchy) life.gameObject.SetActive(true); 
         }
     }
 }

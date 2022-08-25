@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public abstract class UIMenu : MonoBehaviour
 {
     [SerializeField] protected Button _newGameButton;
     [SerializeField] protected Button _exitGameButton;
     [SerializeField] protected Button _fullscreenButton;
-
+    
     protected virtual void OnEnable()
     {
         _newGameButton.onClick.AddListener(StartNewGame);
@@ -20,13 +19,9 @@ public abstract class UIMenu : MonoBehaviour
         _exitGameButton.onClick.RemoveListener(ExitGame);
         _fullscreenButton.onClick.RemoveListener(SwitchFullscreen);
     }
-    
-    private void StartNewGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetSceneByBuildIndex(0).name);
-        Game.Instance.PauseManager.RestartGame();
-    }
 
+    private void StartNewGame() => EventBus.RaiseEvent<INewGameSubscriber>(s => s.OnNewGame());
+    private void SwitchFullscreen() => Screen.fullScreen = !Screen.fullScreen;
     private void ExitGame()
     {
 #if UNITY_STANDALONE_WIN
@@ -37,6 +32,4 @@ public abstract class UIMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
-    
-    private void SwitchFullscreen() => Screen.fullScreen = !Screen.fullScreen;
 }

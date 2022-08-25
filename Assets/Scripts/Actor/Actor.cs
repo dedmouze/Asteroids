@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Actor<T> : MonoBehaviour
 {
     private const float ScreenAdditionalSize = 0.2f;
+    
     private Camera _mainCamera;
     
     protected IFactory<T> Factory;
@@ -15,7 +16,7 @@ public abstract class Actor<T> : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (Game.Instance.PauseManager.IsPaused) return;
+        if (GameSession.Instance.PauseManager.IsPaused) return;
 
         transform.position += (Vector3) (Direction * Speed * Time.deltaTime);
         

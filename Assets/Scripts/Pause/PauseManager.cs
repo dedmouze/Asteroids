@@ -1,25 +1,23 @@
-public class PauseManager
+
+public class PauseManager : IGameEndSubscriber, IGamePauseSubscriber, IGameRestartSubscriber, IGameStartSubscriber
 {
-    private readonly Ship _ship;
+    private bool _isGameOver;
     
     public bool IsPaused { get; private set; } = true;
-    /// <summary>
-    /// Класс менеджера паузы имеет поле IsGameOver, так как конец игры останавливает всю игру,
-    /// как и пауза, разница (пока что) только в том, что при конце игры кнопка Esc будет недоступна.
-    /// </summary>
-    public bool IsGameOver { get; private set; }
-    
-    public void SetPause(bool state) => IsPaused = state;
 
-    public void GameOver()
-    {
-        IsGameOver = true;
-        IsPaused = true;
-    }
+    public PauseManager() => EventBus.Subscribe(this);
+    ~PauseManager() => EventBus.Unsubscribe(this);
 
-    public void RestartGame()
+    void IGameRestartSubscriber.OnGameRestart()
     {
-        IsGameOver = false;
+        _isGameOver = false;
         IsPaused = false;
     }
+    void IGamePauseSubscriber.OnPausePressed()
+    {
+        if (_isGameOver) return;
+        IsPaused = !IsPaused;
+    }
+    void IGameEndSubscriber.OnGameEnd() => IsPaused = true;
+    void IGameStartSubscriber.OnGameStart() => IsPaused = false;
 }

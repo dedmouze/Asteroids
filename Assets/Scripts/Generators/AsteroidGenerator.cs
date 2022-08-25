@@ -3,22 +3,34 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AsteroidFactory))]
-public sealed class AsteroidGenerator : EnemyGenerator
+public sealed class AsteroidGenerator : EnemyGenerator, IEnemyDeathSubscriber<Asteroid>, IGameRestartSubscriber
 {
-    [SerializeField] private int _asteroidPartsCount = 2;
+    [SerializeField] private FloatRange _asteroidPartsCount;
     
     private readonly int _asteroidTypeLength = Enum.GetNames(typeof(AsteroidType)).Length;
     private AsteroidFactory _asteroidFactory;
 
     protected override void Init()
     {
+        EventBus.Subscribe(this);
         _asteroidFactory = GetComponent<AsteroidFactory>();
-        Timer = new Timer(SpawnCooldown.RandomValueInRange, SpawnAsteroid);
+        GenerationTimer = new Timer(SpawnCooldown.RandomValueInRange, SpawnAsteroid,true);
     }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
-    private void OnEnable() => _asteroidFactory.EnemyBlown += OnAsteroidBlown;
-    private void OnDisable() => _asteroidFactory.EnemyBlown -= OnAsteroidBlown;
+    void IEnemyDeathSubscriber<Asteroid>.OnEnemyDeath(Asteroid asteroid)
+    {
+        switch (asteroid.AsteroidType)
+        {
+            case AsteroidType.Big: CreateAsteroidParts(asteroid, AsteroidType.Medium);
+                return;
+            case AsteroidType.Medium: CreateAsteroidParts(asteroid, AsteroidType.Small);
+                return;
+        }
+    }
     
+    void IGameRestartSubscriber.OnGameRestart() => SpawnCooldown.Max = StartMaxSpawnCooldown;
+
     private void SpawnAsteroid()
     {
         int randomAsteroidType = Random.Range(0, _asteroidTypeLength);
@@ -29,23 +41,13 @@ public sealed class AsteroidGenerator : EnemyGenerator
             GetRandomDirection(randomPositionOutsideScreen), randomRotation
             );
         
-        Timer.SetNewTime(SpawnCooldown.RandomValueInRange);
+        GenerationTimer.SetNewTime(SpawnCooldown.RandomValueInRange);
+        SpawnCooldown.Max *= DifficultFactor;
     }
-
-    private void OnAsteroidBlown(Asteroid asteroid)
-    {
-        switch (asteroid.AsteroidType)
-        {
-            case AsteroidType.Big: CreateAsteroidParts(asteroid, AsteroidType.Medium);
-                return;
-            case AsteroidType.Medium: CreateAsteroidParts(asteroid, AsteroidType.Small);
-                return;
-        }
-    }
-
+    
     private void CreateAsteroidParts(Asteroid parent, AsteroidType type)
     {
-        for (int i = 0; i < _asteroidPartsCount; i++)
+        for (int i = 0; i < _asteroidPartsCount.RandomValueInRange; i++)
         {
             Quaternion rotation = GetRandomRotation();
             Vector2 direction = GetRandomDirection(parent.transform.position);

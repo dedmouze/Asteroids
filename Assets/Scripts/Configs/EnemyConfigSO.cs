@@ -2,9 +2,13 @@ using UnityEngine;
 
 public abstract class EnemyConfigSO : ConfigSO
 {
-    [Header("General")]
-    public int Score;
+    [Header("General")] 
+    [SerializeField] private int _score;
+
+    [Header("Movement")] 
+    [SerializeField] private FloatRange _speed;
+
+    public int Score => _score;
     
-    [Header("Movement")]
-    public FloatRange Speed;
+    public FloatRange Speed => _speed;
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class UfoFactory : EnemyFactory<Ufo>
+public sealed class UfoFactory : Factory<Ufo>
 {
     [SerializeField] private UfoConfigSO _ufoConfig;
     
@@ -10,7 +10,6 @@ public sealed class UfoFactory : EnemyFactory<Ufo>
     {
         Ufo ufo = Pool.Request();
 
-        Subscribe(ufo);
         ufo.Init(position, direction, _ufoConfig, this);
     }
 }

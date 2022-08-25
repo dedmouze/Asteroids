@@ -1,18 +1,19 @@
 using UnityEngine;
-using UnityEngine.U2D;
 using Random = UnityEngine.Random;
 
 public abstract class EnemyGenerator : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D _collider;
-    
     [SerializeField] protected FloatRange SpawnCooldown;
-
+    
+    protected const float DifficultFactor = 0.99f;
+    protected float StartMaxSpawnCooldown;
+    
     private Camera _mainCamera;
     private Vector2 _halfScreenSize;
     private Vector2 _spawnPositionBounds;
     
-    protected Timer Timer;
+    protected Timer GenerationTimer;
     
     private void Awake()
     {
@@ -20,14 +21,14 @@ public abstract class EnemyGenerator : MonoBehaviour
         _halfScreenSize = new Vector2(20f, 11.25f); // Игра будет работать только от 1920x1080
         Vector2 extents = _collider.size / 2;
         _spawnPositionBounds = new Vector2(_halfScreenSize.x + extents.x, _halfScreenSize.y + extents.y);
+        StartMaxSpawnCooldown = SpawnCooldown.Max;
         
         Init();
+        Timers.Start(GenerationTimer);
     }
-
-    private void OnValidate() => Timer?.SetNewTime(SpawnCooldown.RandomValueInRange);
-
-    private void Update() => Timer.Tick(Time.deltaTime);
-
+    
+    private void OnValidate() => GenerationTimer?.SetNewTime(SpawnCooldown.RandomValueInRange);
+    
     protected Vector2 GetRandomPositionOutsideScreen()
     {
         return Random.Range(0, 4) switch

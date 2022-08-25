@@ -14,10 +14,10 @@ public class Music : MonoBehaviour
     private void Update()
     {
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
-        if (Game.Instance.PauseManager.IsPaused) _menu.TransitionTo(1f);
+        if (GameSession.Instance.PauseManager.IsPaused) _menu.TransitionTo(1f);
         else _game.TransitionTo(1f);
 #else
-        if (Game.Instance.PauseManager.IsPaused) _menuWebGL.TransitionTo(1f);
+        if (GameSession.Instance.PauseManager.IsPaused) _menuWebGL.TransitionTo(1f);
         else _gameWebGL.TransitionTo(1f);
 #endif
     }

@@ -3,8 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Configs/UfoConfig")]
 public class UfoConfigSO : EnemyConfigSO
 {
-    public float SinusoidFrequance;
+    [SerializeField] private FloatRange _sinusoidFrequency;
     
     [Header("Fire")]
-    public float FireCooldown;
+    [SerializeField] private float _fireCooldown;
+
+    public float SinusoidFrequency => _sinusoidFrequency.RandomValueInRange;
+
+    public float FireCooldown => _fireCooldown;
 }

@@ -1,52 +1,36 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIMainMenu : UIMenu
+public sealed class UIMainMenu : UIMenu, IGamePauseSubscriber, IGameRestartSubscriber, IGameStartSubscriber
 {
     [SerializeField] private Button _continueGameButton;
     [SerializeField] private GameObject _pausePanel;
 
-    [SerializeField] private GameObject _scorePanel;
-    [SerializeField] private GameObject _lifePanel;
-    
-    private PlayerInputHandler _input;
-
-    private void Awake()
-    {
-        if (!Game.Instance.PauseManager.IsPaused)
-        {
-            _pausePanel.SetActive(false);
-            _scorePanel.SetActive(true);
-            _lifePanel.SetActive(true);
-            Game.Instance.IsStarted = true;
-            _continueGameButton.GetComponent<Image>().color = Color.white;
-        }
-
-        _input = FindObjectOfType<PlayerInputHandler>();
-    }
+    private void Awake() => EventBus.Subscribe(this);
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        _input.PausePressed += OnPausePressed;
         _continueGameButton.onClick.AddListener(ContinueGame);
     }
     protected override void OnDisable()
     {
         base.OnEnable();
-        _input.PausePressed -= OnPausePressed;
         _continueGameButton.onClick.RemoveListener(ContinueGame);
     }
 
-    private void OnPausePressed() => SwitchPanel(!_pausePanel.activeSelf);
-    
-    private void ContinueGame() => SwitchPanel(false);
-
-    private void SwitchPanel(bool state)
+    private void ContinueGame()
     {
-        if (!Game.Instance.IsStarted) return;
-        
-        _pausePanel.SetActive(state);
-        Game.Instance.PauseManager.SetPause(state);
+        if (!GameSession.Instance.IsGameStarted) return;
+        EventBus.RaiseEvent<IGamePauseSubscriber>(s => s.OnPausePressed());
+    }
+    
+    void IGameRestartSubscriber.OnGameRestart() => _pausePanel.SetActive(false);
+    void IGamePauseSubscriber.OnPausePressed() => _pausePanel.SetActive(!_pausePanel.activeSelf);
+    void IGameStartSubscriber.OnGameStart()
+    {
+        _pausePanel.SetActive(false);
+        _continueGameButton.GetComponent<Image>().color = Color.white;
     }
 }

@@ -1,32 +1,30 @@
 using UnityEngine;
 
-public class ShipFireControl : MonoBehaviour
+public class ShipFireControl : MonoBehaviour, IPlayerFireSubscriber
 {
     [SerializeField] private ShipConfigSO _shipConfig;
     
     private BulletFactory _bulletFactory;
-    private PlayerInputHandler _playerInput;
     private Transform _gunPoint;
-    private Timer _timer;
+    private Timer _shootTimer;
     
     private void Awake()
     {
         _bulletFactory = FindObjectOfType<BulletFactory>();
-        _playerInput = GetComponentInParent<PlayerInputHandler>();
-        
-        _timer = new Timer(_shipConfig.FireCooldown);
-        _gunPoint = transform.GetChild(0);
-    }
-    
-    private void OnEnable() => _playerInput.FirePressed += OnFirePressed;
-    private void OnDisable() => _playerInput.FirePressed -= OnFirePressed;
-    
-    private void Update() => _timer.Tick(Time.deltaTime);
 
-    private void OnFirePressed()
+        _shootTimer = new Timer(_shipConfig.FireCooldown, null, false, true);
+        Timers.Start(_shootTimer);
+        _shootTimer.AccumulatedTime = _shipConfig.FireCooldown; //таймер игрока сразу готов
+
+        _gunPoint = transform.GetChild(0);
+        EventBus.Subscribe(this);
+    }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
+    
+    void IPlayerFireSubscriber.OnFirePressed()
     {
-        if (!_timer.IsEnd) return;
-        _timer.ResetTimer();
+        if (!_shootTimer.IsEnd) return;
+        Timers.Start(_shootTimer);
 
         _bulletFactory.Create(BulletType.Player, _gunPoint.position, transform.rotation * Vector3.up);
     }

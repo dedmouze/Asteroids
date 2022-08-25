@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631e095f0f0738b4ba7c72a1ead9aa01, type: 3}
   m_Name: Big Asteroid
   m_EditorClassIdentifier: 
-  EffectSound: {fileID: 8300000, guid: c6021f89d6af80743b72bba9899255bf, type: 3}
-  EffectAnimation: {fileID: 7400000, guid: 08e6c4c62f5e15341b161cf0708c1c38, type: 2}
-  AudioMixerGroup: {fileID: 6122013479226857705, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
-  AnimatorController: {fileID: 9100000, guid: 51409868472c4b14cb6590eb626aa587, type: 2}
-  Score: 10
-  Speed:
-    Min: 1
-    Max: 3
+  _effectSound: {fileID: 8300000, guid: c6021f89d6af80743b72bba9899255bf, type: 3}
+  _effectAnimation: {fileID: 7400000, guid: 08e6c4c62f5e15341b161cf0708c1c38, type: 2}
+  _audioMixerGroup: {fileID: 6122013479226857705, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  _score: 20
+  _speed:
+    Min: 2
+    Max: 4
   _asteroid: {fileID: 2507119706760129640, guid: d83c9383efc7ad64daaf093139e1a8f9, type: 3}
   _asteroidCollider: {fileID: 2507119706760129637, guid: d83c9383efc7ad64daaf093139e1a8f9, type: 3}
   _asteroidRenderer: {fileID: 2507119706760129639, guid: d83c9383efc7ad64daaf093139e1a8f9, type: 3}

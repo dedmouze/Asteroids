@@ -4,7 +4,11 @@ using UnityEngine.Audio;
 public abstract class ConfigSO : ScriptableObject
 {
     [Header("Sfx")]
-    public AudioClip EffectSound;
-    public AnimationClip EffectAnimation;
-    public AudioMixerGroup AudioMixerGroup;
+    [SerializeField] private AudioClip _effectSound;
+    [SerializeField] private AnimationClip _effectAnimation;
+    [SerializeField] private AudioMixerGroup _audioMixerGroup;
+    
+    public AudioClip EffectSound => _effectSound;
+    public AnimationClip EffectAnimation => _effectAnimation;
+    public AudioMixerGroup AudioMixerGroup => _audioMixerGroup;
 }

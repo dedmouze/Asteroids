@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D))]
 public sealed class Asteroid : Enemy<Asteroid>
 {
     private SpriteRenderer _asteroidRenderer;
@@ -25,6 +26,7 @@ public sealed class Asteroid : Enemy<Asteroid>
         Factory = factory;
         _asteroidRenderer.sprite = config.Sprite;
         _asteroidCollider.size = config.ColliderSize;
+        name = type.ToString();
 
         transform.SetPositionAndRotation(position, rotation);
     }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SfxFactory : Factory<Sfx>
+public sealed class SfxFactory : Factory<Sfx>
 {
     [SerializeField] private AsteroidConfigSO _bigAsteroidConfig, _mediumAsteroidConfig, _smallAsteroidConfig;
     [SerializeField] private BulletConfigSO _shipBulletConfig, _ufoBulletConfig;

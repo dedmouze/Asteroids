@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05854f33d7a689948a8747e8ce49085c, type: 3}
   m_Name: Ufo Bullet
   m_EditorClassIdentifier: 
-  EffectSound: {fileID: 8300000, guid: a261cf007b221f643a9400fb891aeaa3, type: 3}
-  EffectAnimation: {fileID: 7400000, guid: a2db3cac159f49e418520b7489a5d5b7, type: 2}
-  AudioMixerGroup: {fileID: -6467592778228996985, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
-  AnimatorController: {fileID: 9100000, guid: 0d969436ab499a24480a5a2886a7e488, type: 2}
-  Color: {r: 1, g: 0, b: 0, a: 1}
-  Speed: 15
+  _effectSound: {fileID: 8300000, guid: a261cf007b221f643a9400fb891aeaa3, type: 3}
+  _effectAnimation: {fileID: 7400000, guid: a2db3cac159f49e418520b7489a5d5b7, type: 2}
+  _audioMixerGroup: {fileID: -6467592778228996985, guid: 5d2df44131163bf4aa22f1ca0235bf0d, type: 2}
+  _color: {r: 1, g: 0, b: 0, a: 1}
+  _speed: 15

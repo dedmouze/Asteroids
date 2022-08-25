@@ -1,22 +1,23 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class ShipAnimation : MonoBehaviour
+public class ShipAnimation : MonoBehaviour, IGameRestartSubscriber, IPlayerAccelerationSubscriber
 {
     private readonly int _accelerate = Animator.StringToHash("Accelerate");
+    private readonly int _resetAccelerate = Animator.StringToHash("Reset Accelerate");
     
     private Animator _shipAnimator;
-    private PlayerInputHandler _playerInput;
-    
+
     private void Awake()
     {
-        _playerInput = GetComponentInParent<PlayerInputHandler>();
+        EventBus.Subscribe(this);
         _shipAnimator = GetComponent<Animator>();
     }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
     private void Update()
     {
-        if (Game.Instance.PauseManager.IsPaused)
+        if (GameSession.Instance.PauseManager.IsPaused)
         {
             _shipAnimator.enabled = false;
             return;
@@ -24,8 +25,6 @@ public class ShipAnimation : MonoBehaviour
         _shipAnimator.enabled = true;
     }
 
-    private void OnEnable() => _playerInput.AcceleratePressed += OnAcceleratePressed;
-    private void OnDisable() => _playerInput.AcceleratePressed -= OnAcceleratePressed;
-    
-    private void OnAcceleratePressed() => _shipAnimator.SetTrigger(_accelerate);
+    void IGameRestartSubscriber.OnGameRestart() => _shipAnimator.SetTrigger(_resetAccelerate);
+    void IPlayerAccelerationSubscriber.OnAcceleratePressed() => _shipAnimator.SetTrigger(_accelerate);
 }

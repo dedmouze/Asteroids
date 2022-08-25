@@ -1,47 +1,31 @@
-using System;
 using UnityEngine;
 
-public class ShipMovement : MonoBehaviour
+public class ShipMovement : MonoBehaviour, IGameRestartSubscriber, IPlayerMovementSubscriber, IControlTypeSubscriber
 {
     [SerializeField] private ShipConfigSO _shipConfig;
     
-    private PlayerInputHandler _playerInput;
     private Camera _mainCamera;
-
-    private ControlType _currentControlType => Game.Instance.ControlType;
-    private bool _pauseState => Game.Instance.PauseManager.IsPaused;
+    private ControlType _controlType;
     
     private Vector2 _velocity;
     private float _rotationVelocity;
 
     private Vector2 _mouseDirection;
-
-    public event Action ShipBlown;
-
+    
+    private bool _pauseState => GameSession.Instance.PauseManager.IsPaused;
+    
     private void Awake()
     {
-        _playerInput = GetComponentInParent<PlayerInputHandler>();
+        EventBus.Subscribe(this);
         _mainCamera = Camera.main;
     }
+    private void OnDestroy() => EventBus.Unsubscribe(this);
 
-    private void OnEnable()
-    {
-        _playerInput.AcceleratePressed += OnAcceleratePressed;
-        _playerInput.SlowdownPressed += OnSlowdownPressed;
-        _playerInput.RotationProduced += OnRotationProduced;
-    }
-    private void OnDisable()
-    {
-        _playerInput.AcceleratePressed -= OnAcceleratePressed;
-        _playerInput.SlowdownPressed -= OnSlowdownPressed;
-        _playerInput.RotationProduced -= OnRotationProduced;
-    }
-    
     private void Update()
     {
         if (_pauseState) return;
         
-        switch (_currentControlType)
+        switch (_controlType)
         {
             case ControlType.OnlyKeyboard:
             {
@@ -55,10 +39,9 @@ public class ShipMovement : MonoBehaviour
                 break;
             }
         }
-        
+
         transform.position += (Vector3) _velocity * Time.deltaTime;
     }
-
     private void LateUpdate()
     {
         if (_pauseState) return;
@@ -71,26 +54,31 @@ public class ShipMovement : MonoBehaviour
         
         transform.position = newPosition;
     }
-    
-    private void OnAcceleratePressed()
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        ResetVelocity();
+        EventBus.RaiseEvent<IPlayerDeathSubscriber>(s => s.OnPlayerDeath(transform.position));
+        EventBus.RaiseEvent<IPlayerDeathParameterlessSubscriber>(s => s.OnPlayerDeath());
+    }
+
+    void IPlayerAccelerationSubscriber.OnAcceleratePressed()
     {
         Vector2 forwardDirection = transform.rotation * Vector3.up;
         
         _velocity += forwardDirection * _shipConfig.Acceleration * Time.deltaTime;
         _velocity = Vector2.ClampMagnitude(_velocity, _shipConfig.MaxVelocity);
     }
-    
-    private void OnSlowdownPressed()
+    void IPlayerSlowdownSubscriber.OnSlowdownPressed()
     {
         float deceleration = -_shipConfig.Acceleration * Time.deltaTime;
         _velocity += 2 * _velocity.normalized * deceleration / _shipConfig.SecondsToStop;
 
         if(_velocity.sqrMagnitude < 0.001f) _velocity = Vector2.zero;
     }
-
-    private void OnRotationProduced(Vector2 direction)
+    void IPlayerRotationSubscriber.OnRotationProduced(Vector2 direction)
     {
-        switch (_currentControlType)
+        switch (_controlType)
         {
             case ControlType.OnlyKeyboard:
             {
@@ -105,10 +93,18 @@ public class ShipMovement : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    
+    void IGameRestartSubscriber.OnGameRestart()
     {
-        ShipBlown?.Invoke();
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        ResetVelocity();
+    }
+
+    void IControlTypeSubscriber.OnControlTypeChanged(ControlType type) => _controlType = type;
+    
+    private void ResetVelocity()
+    {
         _velocity = Vector2.zero;
         _rotationVelocity = 0f;
     }

@@ -11,16 +11,8 @@ public class UIControlSetting : MonoBehaviour
     private ControlType _controlType;
     
     private Image _controlButtonImage;
-    
-    public event Action<ControlType> ControlTypeChanged;
 
-    private void Start()
-    {
-        _controlButtonImage = _changeControlButton.GetComponent<Image>();
-        
-        _controlType = Game.Instance.ControlType;
-        _controlButtonImage.sprite = _controlTypeSprites[(int) _controlType];
-    }
+    private void Awake() => _controlButtonImage = _changeControlButton.GetComponent<Image>();
     
     private void OnEnable() => _changeControlButton.onClick.AddListener(ChangeControlType);
     private void OnDisable() => _changeControlButton.onClick.RemoveListener(ChangeControlType);
@@ -31,6 +23,6 @@ public class UIControlSetting : MonoBehaviour
         
         _controlButtonImage.sprite = _controlTypeSprites[(int)_controlType];
         
-        ControlTypeChanged?.Invoke(_controlType);
+        EventBus.RaiseEvent<IControlTypeSubscriber>(s => s.OnControlTypeChanged(_controlType));
     }
 }

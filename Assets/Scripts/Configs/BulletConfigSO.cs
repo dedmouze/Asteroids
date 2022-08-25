@@ -3,9 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Configs/BulletConfig")]
 public class BulletConfigSO : ConfigSO
 {
-    [Header("General")] 
-    public Color Color;
+    [Header("General")]
+    [SerializeField] private Color _color;
     
     [Header("Movement")]
-    public float Speed;
+    [SerializeField] private float _speed;
+
+    public Color Color => _color;
+    
+    public float Speed => _speed;
 }
